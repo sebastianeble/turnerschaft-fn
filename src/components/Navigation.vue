@@ -1,9 +1,11 @@
 <template>
     <header :class="{ 'scrolled-nav': scrolledNav}">
         <nav>
-            <div>
+            
+            <div class="branding" :class="{ 'img-move' : mobileNav}">
                 <img src="@/assets/images/logo_no_background.png" alt="" />
             </div>
+            
             <ul v-show="!mobile" class="navigation">
                 <li><router-link class="link" :to="{ name: 'Startseite' }">Startseite</router-link></li>
                 <li><router-link class="link" :to="{ name: 'Sportangebote' }">Sportangebote</router-link></li>
@@ -14,6 +16,7 @@
             <div class="icon">
                 <i class="fa-solid fa-bars" @click="toggleMobileNav" v-show="mobile" :class="{ 'icon-active' : mobileNav}"></i>
             </div>
+            
             <transition name="mobile-nav">
                 <ul v-show="mobileNav" class="dropdown-nav">
                     <li><router-link class="link" :to="{ name: 'Startseite' }">Startseite</router-link></li>
@@ -23,6 +26,7 @@
                     <li><router-link class="link" :to="{ name: 'Kontakt' }">Kontakt</router-link></li>
                 </ul>
             </transition>
+
         </nav>
     </header>
 </template>
@@ -62,7 +66,7 @@ export default {
 
         checkScreen() {
             this.windowWith = window.innerWidth;
-            if (this.windowWith <= 750) {
+            if (this.windowWith <= 1040) {
                 this.mobile = true;
                 return;
             }
@@ -83,7 +87,7 @@ header {
     position: fixed;
     transition: .5s ease all;
     color: #000;
-    top: 0px;
+    
 
     nav {
         position: relative;
@@ -118,19 +122,21 @@ header {
             border-bottom: 1px solid transparent;
         
             &:hover {
-                color: #00afea;
                 border-color: #00afea;
             }
         }
-    .branding {
-        display: flex;
-        align-items: center;
+        .branding {
+            transition: 1s ease all;
+            display: flex;
+            align-items: center;
 
-        img {
-            width: 50px;
-            transition: .5s ease all;
+            img {
+                width: 300px;
+                transition: .5s ease all;
+            }
+
+            
         }
-    }
 
     .navigation {
         display: flex;
@@ -162,6 +168,7 @@ header {
         display: flex;
         flex-direction: column;
         position: fixed;
+        top: 0;
         margin: 0;
         width: 100%;
         max-width: 250px;
@@ -176,9 +183,26 @@ header {
                 color: #000;
             }
         }
+    }
 
+    .img-move {
+        transition: 1s ease all;
+        transform: translate(250px);
     }
-    }
+
+        .mobile-nav-enter-active,
+        .mobile-nav-leave-active {
+            transition: 1s ease all;
+        }
+
+        .mobile-nav-enter-from,
+        .mobile-nav-leave-to {
+            transform:translateX(-250px);
+        }
+
+        
+
+    } 
 }
 
 .scrolled-nav {
@@ -190,8 +214,7 @@ header {
 
         .branding {
             img {
-                width: 40px;
-                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+                width: 200px;
             }
         }
     }
